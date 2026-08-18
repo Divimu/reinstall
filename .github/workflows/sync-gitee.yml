@@ -1,0 +1,22 @@
+name: Sync Fork → Gitee
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+  # 兜底定时，防止事件漏触发
+  schedule:
+    - cron: '0 6 * * *'
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Mirror repository to Gitee
+        uses: wearerequired/git-mirror-action@master
+        env:
+          GITEE_TOKEN: ${{ secrets.GITEE_TOKEN }}
+        with:
+          # ========= 替换为【你的GitHub用户名】 =========
+          source-repo: https://github.com/Divimu/reinstall.git
+          # ========= 替换为【你的Gitee用户名】 =========
+          destination-repo: https://divim:${{ env.GITEE_TOKEN }}@gitee.com/divim/reinstall.git
